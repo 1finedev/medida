@@ -11,15 +11,21 @@
  * ############################################################################### *
  */
 
-import { LocalStorageData } from '@app/types';
 import { useEffect, useState } from 'react';
+import { LocalStorageData } from '../types';
 
 export const useLocalStorageData = () => {
   const [localStorageData, setLocalStorageData] = useState<LocalStorageData[]>(
     []
   );
 
-  const updateLocalStorageData = (payload: LocalStorageData) => {
+  const updateLocalStorageData = (payload: LocalStorageData | null) => {
+    if (!payload) {
+      setLocalStorageData([]);
+      localStorage.removeItem('medida_canvas_data');
+      return;
+    }
+
     const updatedData = [payload, ...localStorageData];
     setLocalStorageData(updatedData);
     localStorage.setItem('medida_canvas_data', JSON.stringify(updatedData));

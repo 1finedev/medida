@@ -20,15 +20,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-
-    /* Paths */
-    "baseUrl": ".",
-    "paths": {
-      "@app/*": ["src/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@components/*": ["src/components/*"]
-    }
+    "noUncheckedSideEffectImports": true
   },
   "include": ["src"]
 }

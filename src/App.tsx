@@ -1,5 +1,4 @@
 import Canvas from './components/Canvas';
-import CanvasActions from './components/CanvasActions';
 import DrawingHistory from './components/DrawingHistory';
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
         <DrawingHistory />
       </section>
       <section className="flex-1 flex flex-col space-y-6 h-full border border-transparent bg-primary rounded-2xl p-6">
-        <CanvasActions />
         <Canvas />
       </section>
     </main>
