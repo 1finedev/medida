@@ -8,7 +8,7 @@ function App() {
       <section className="w-[20vw] h-full">
         <DrawingHistory />
       </section>
-      <section className="flex-1 h-full border border-transparent bg-secondary rounded-2xl p-6">
+      <section className="flex-1 flex flex-col space-y-6 h-full border border-transparent bg-primary rounded-2xl p-6">
         <CanvasActions />
         <Canvas />
       </section>
