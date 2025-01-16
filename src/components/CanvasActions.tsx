@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 12:nn:42
+ * Last Modified: Th/01/2025 01:nn:50
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -25,7 +25,8 @@ const CanvasActions = ({
   showClearButton,
   persistRectangleData
 }: CanvasActionsProps) => {
-  const { localStorageData, clearLocalStorageData } = useLocalStorageData();
+  const { localStorageData, clearLocalStorageData, restoredDrawing } =
+    useLocalStorageData();
 
   return (
     <div className="flex items-end justify-end w-full gap-4 mb-6 md:mb-2">
@@ -45,7 +46,7 @@ const CanvasActions = ({
           Clear History
         </button>
       )}
-      {showSaveButton && (
+      {showSaveButton && !restoredDrawing && (
         <button
           onClick={persistRectangleData}
           className="px-4 py-2 text-sm font-medium rounded-lg bg-button-primary md:font-semibold md:text-base md:py-3 md:px-6 text-text-primary"
