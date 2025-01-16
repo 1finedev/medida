@@ -226,6 +226,20 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       });
     }
   };
+
+  const undoDrawing = () => {
+    if (rectangleData.rectangles.length === 0) return;
+
+    const updatedRectangles = [...rectangleData.rectangles];
+    updatedRectangles.pop();
+
+    setRectangleData((prev) => ({
+      id: prev.id,
+      rectangles: updatedRectangles,
+      distance: prev.distance,
+      createdAt: prev.createdAt
+    }));
+  };
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -245,6 +259,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   }, [restoredDrawing]);
 
   return {
+    undoDrawing,
     computeCanvasDimensions,
     clearCanvas,
     draw,

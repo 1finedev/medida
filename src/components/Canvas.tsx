@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 12:nn:28
+ * Last Modified: Th/01/2025 01:nn:51
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -26,12 +26,14 @@ const Canvas = () => {
     stopDrawing,
     isDrawingDisabled,
     rectangleData,
-    persistRectangleData
+    persistRectangleData,
+    undoDrawing
   } = useCanvas(canvasRef);
 
   return (
     <div className="flex flex-col items-center">
       <CanvasActions
+        undoDrawing={undoDrawing}
         clearCanvas={clearCanvas}
         showSaveButton={isDrawingDisabled}
         showClearButton={(rectangleData?.rectangles?.length ?? 0) > 0}
