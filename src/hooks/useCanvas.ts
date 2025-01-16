@@ -173,7 +173,11 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       id: RECTANGLE_ID,
       rectangles: rectangleData.rectangles,
       distance,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      canvasSizeSnapshot: {
+        width: canvasRef.current?.width || 0,
+        height: canvasRef.current?.height || 0
+      }
     });
     clearCanvas();
   };
@@ -205,7 +209,21 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       Array.isArray(rectangleData?.rectangles) &&
       rectangleData.rectangles.length > 0
     ) {
-      rectangleData.rectangles.forEach(drawRectangle);
+      const { canvasSizeSnapshot } = rectangleData;
+      const scaleX = canvas.width / (canvasSizeSnapshot?.width || canvas.width);
+      const scaleY =
+        canvas.height / (canvasSizeSnapshot?.height || canvas.height);
+
+      rectangleData.rectangles.forEach((rect) => {
+        const scaledRectangle = {
+          ...rect,
+          x: rect.x * scaleX,
+          y: rect.y * scaleY,
+          width: rect.width * scaleX,
+          height: rect.height * scaleY
+        };
+        drawRectangle(scaledRectangle);
+      });
     }
   };
   useEffect(() => {

@@ -29,6 +29,10 @@ export interface Rectangle {
 }
 
 export interface LocalStorageData {
+  canvasSizeSnapshot?: {
+    width: number;
+    height: number;
+  };
   id: string;
   rectangles: Rectangle[];
   distance: number;
