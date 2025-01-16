@@ -250,6 +250,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       distance: prev.distance,
       createdAt: prev.createdAt
     }));
+    setIsDrawingDisabled(false);
   };
 
   useEffect(() => {
