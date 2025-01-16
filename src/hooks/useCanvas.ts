@@ -11,20 +11,32 @@
  * ############################################################################### *
  */
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocalStorageData } from './useLocalStorageData';
 
 export const useCanvas = (ref: React.RefObject<HTMLCanvasElement>) => {
+  const { localStorageData, updateLocalStorageData } = useLocalStorageData();
+  const [isDrawingStarted, setIsDrawingStarted] = useState(false);
+  const [isDrawingDisabled, setIsDrawingDisabled] = useState(false);
+  const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
+
+  const canvas = ref.current;
+
   // a secondary ref to store the canvas context
   const canvasContextRef = useRef<CanvasRenderingContext2D | null>(null);
 
-  const { updateLocalStorageData } = useLocalStorageData();
+  const clearCanvasHistory = useCallback(() => {
+    updateLocalStorageData(null);
+  }, [updateLocalStorageData]);
 
-  const clearCanvas = () => updateLocalStorageData(null);
+  const clearCanvas = () => {
+    if (!canvas || !canvasContextRef.current) return;
+    canvasContextRef.current.clearRect(0, 0, canvas.width, canvas.height);
+  };
 
   useEffect(() => {
     const canvas = ref.current;
-    if (typeof canvas === 'undefined' || canvas === null) return;
+    if (!canvas) return;
 
     // set the canvas context
     const context = canvas?.getContext('2d');
@@ -34,5 +46,20 @@ export const useCanvas = (ref: React.RefObject<HTMLCanvasElement>) => {
     canvasContextRef.current = context;
   }, [ref]);
 
-  return { clearCanvas };
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+
+    canvas.addEventListener('mousedown', () => () => {});
+    canvas.addEventListener('mouseup', () => () => {});
+    canvas.addEventListener('mousemove', () => () => {});
+
+    return () => {
+      canvas.removeEventListener('mousedown', () => () => {});
+      canvas.removeEventListener('mouseup', () => () => {});
+      canvas.removeEventListener('mousemove', () => () => {});
+    };
+  }, [localStorageData, isDrawingStarted, startPoint, ref]);
+
+  return { clearCanvasHistory, clearCanvas, isDrawingDisabled };
 };
