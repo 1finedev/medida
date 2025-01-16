@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 12:nn:40
+ * Last Modified: Th/01/2025 12:nn:49
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -14,7 +14,7 @@
 import { useLocalStorageData } from '../hooks/useLocalStorageData';
 
 const DrawingHistory = () => {
-  const { localStorageData, restoreDrawing, deleteDrawing } =
+  const { localStorageData, restoreDrawing, deleteDrawing, restoredDrawing } =
     useLocalStorageData();
 
   return (
@@ -43,7 +43,12 @@ const DrawingHistory = () => {
         </thead>
         <tbody>
           {localStorageData.map((item) => (
-            <tr key={item.id}>
+            <tr
+              key={item.id}
+              className={`${
+                restoredDrawing?.id === item.id ? 'bg-button-primary' : ''
+              }`}
+            >
               {item.rectangles.map((rectangle) => (
                 <td
                   key={rectangle.id}
