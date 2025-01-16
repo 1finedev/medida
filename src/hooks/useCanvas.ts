@@ -178,7 +178,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     clearCanvas();
   };
 
-  useEffect(() => {
+  const computeCanvasDimensions = () => {
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
 
@@ -207,6 +207,16 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     ) {
       rectangleData.rectangles.forEach(drawRectangle);
     }
+  };
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    computeCanvasDimensions();
+    // listen to window resize event to adjust canvas dimensions
+    window.addEventListener('resize', computeCanvasDimensions);
+
+    return () => window.removeEventListener('resize', computeCanvasDimensions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canvasRef, rectangleData?.rectangles?.length, rectangleData?.rectangles]);
 
   useEffect(() => {
@@ -217,6 +227,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   }, [restoredDrawing]);
 
   return {
+    computeCanvasDimensions,
     clearCanvas,
     draw,
     startDrawing,

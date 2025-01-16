@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 12:nn:49
+ * Last Modified: Th/01/2025 01:nn:59
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -18,7 +18,7 @@ const DrawingHistory = () => {
     useLocalStorageData();
 
   return (
-    <div className="w-full min-w-[80vw]">
+    <div className="w-full min-w-[80vw] overflow-auto">
       <h3 className="mb-6 text-2xl text-center uppercase text-bold">
         Drawing History
       </h3>
@@ -46,7 +46,7 @@ const DrawingHistory = () => {
             <tr
               key={item.id}
               className={`${
-                restoredDrawing?.id === item.id ? 'bg-button-primary' : ''
+                restoredDrawing?.id === item.id ? 'bg-secondary' : ''
               }`}
             >
               {item.rectangles.map((rectangle) => (

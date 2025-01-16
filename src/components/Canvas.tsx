@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 11:nn:33
+ * Last Modified: Th/01/2025 12:nn:28
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -38,12 +38,12 @@ const Canvas = () => {
         persistRectangleData={persistRectangleData}
       />
       <p
-        className={`text-left w-full ${
+        className={`text-xs md:text-base text-center md:text-left w-full ${
           isDrawingDisabled ? 'text-red-500' : 'text-text-primary'
         }`}
       >
         {isDrawingDisabled
-          ? 'Mex (2) rectangles drawn, Clear Canvas or Save Rectangles to continue'
+          ? 'Max (2) rectangles drawn, Clear Canvas or Save Rectangles to continue'
           : 'Click and drag on the canvas below to draw'}
       </p>
       <canvas
