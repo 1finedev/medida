@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 01:nn:51
+ * Last Modified: Th/01/2025 01:nn:34
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -50,10 +50,14 @@ const Canvas = () => {
       </p>
       <canvas
         ref={canvasRef}
-        onMouseMove={draw}
-        onMouseDown={startDrawing}
+        onMouseMove={(e) => draw(e as unknown as MouseEvent)}
+        onMouseDown={(e) => startDrawing(e as unknown as MouseEvent)}
         onMouseUp={stopDrawing}
         onMouseLeave={stopDrawing}
+        onTouchMove={(e) => draw(e as unknown as TouchEvent)}
+        onTouchStart={(e) => startDrawing(e as unknown as TouchEvent)}
+        onTouchEnd={stopDrawing}
+        onTouchCancel={stopDrawing}
         className={`mt-4 bg-secondary rounded-lg ${
           isDrawingDisabled ? 'cursor-not-allowed' : 'cursor-cell'
         }`}

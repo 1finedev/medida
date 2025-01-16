@@ -1,16 +1,3 @@
-/*
- * ############################################################################### *
- * Created Date: Th Jan 2025                                                   *
- * Author: Emmanuel Bayode O.                                                  *
- * -----                                                                       *
- * Last Modified: Thu Jan 16 2025                                              *
- * Modified By: Emmanuel Bayode O.                                             *
- * -----                                                                       *
- * HISTORY:                                                                    *
- * Date      	By	Comments                                                   *
- * ############################################################################### *
- */
-
 import { useEffect, useRef, useState } from 'react';
 import { LocalStorageData, Rectangle } from '../types';
 import { useLocalStorageData } from './useLocalStorageData';
@@ -86,13 +73,16 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     );
   };
 
-  const draw = ({ nativeEvent }: { nativeEvent: MouseEvent }) => {
-    nativeEvent.preventDefault();
-    nativeEvent.stopPropagation();
+  const draw = (event: MouseEvent | TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
     if (!canvasRef.current || !contextRef.current || !isDrawingStarted) return;
 
-    const { clientX, clientY } = nativeEvent;
+    const clientX =
+      'touches' in event ? event.touches[0].clientX : event.clientX;
+    const clientY =
+      'touches' in event ? event.touches[0].clientY : event.clientY;
 
     const latestMouseX = clientX - canvasXOffset.current;
     const latestMouseY = clientY - canvasYOffset.current;
@@ -127,9 +117,9 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     setCurrentRectangle(rectangle);
   };
 
-  const startDrawing = ({ nativeEvent }: { nativeEvent: MouseEvent }) => {
-    nativeEvent.preventDefault();
-    nativeEvent.stopPropagation();
+  const startDrawing = (event: MouseEvent | TouchEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
 
     if (
       Array.isArray(rectangleData?.rectangles) &&
@@ -139,7 +129,10 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       return;
     }
 
-    const { clientX, clientY } = nativeEvent;
+    const clientX =
+      'touches' in event ? event.touches[0].clientX : event.clientX;
+    const clientY =
+      'touches' in event ? event.touches[0].clientY : event.clientY;
     startPositionX.current = clientX - canvasXOffset.current;
     startPositionY.current = clientY - canvasYOffset.current;
 
@@ -240,6 +233,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       createdAt: prev.createdAt
     }));
   };
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
