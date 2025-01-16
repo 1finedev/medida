@@ -128,6 +128,8 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
+    document.body.style.userSelect = 'none';
+    document.body.style.overflow = 'hidden';
 
     if (
       Array.isArray(rectangleData?.rectangles) &&
@@ -150,6 +152,9 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   const stopDrawing = () => {
     setIsDrawingStarted(false);
     if (!currentRectangle) return;
+
+    document.body.style.userSelect = '';
+    document.body.style.overflow = '';
 
     setRectangleData((prev) => ({
       id: prev.id,
