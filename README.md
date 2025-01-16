@@ -1,50 +1,41 @@
-# React + TypeScript + Vite
+# Medida Senior Frontend Engineer Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the assessment project for the Senior Frontend Engineer position at Medida.
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. **Clone the repository:**
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```sh
+git clone https://github.com/yourusername/medida-frontend-assessment.git
+cd medida-frontend-assessment
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. **Install dependencies:**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+npm install
 ```
+
+3. **Launch the application:**
+
+```sh
+npm start
+```
+
+## Project Structure
+
+- **src/**: Contains the source code for the application.
+  - **components/**: Reusable UI components.
+  - **hooks/**: Contains abstracted logic for the canvas operations.
+  - **context/**: Contains the global shared state logic
+  - **index.css / tailwind.config.js/**: CSS and styling files using tailwind css
+  - **App.tsx/**: Entry point of the application
+
+## Approach
+
+- **Architecture**: The canvas application is built using reusable components to ensure modularity and maintainability, functional approach with hooks and utilizing React's built-in state management to handle application shared global states and tailwindCss for styling
+
+## Summary
+
+This repo contains solution to the [Medida Frontend Engineer Assessment](https://docs.google.com/document/d/1i8csbizS08WapDAJgzdUAGVkWjKnBO7oG6cR7havGi0/edit?tab=t.0#heading=h.6w7ujhpujgok)
