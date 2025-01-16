@@ -78,8 +78,21 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       | React.MouseEvent<HTMLCanvasElement>
       | React.TouchEvent<HTMLCanvasElement>
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
+    // Prevent all touch events immediately
+    if ('touches' in event && rectangleData.rectangles.length !== 2) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      // Set touch-action CSS
+      if (canvasRef.current) {
+        canvasRef.current.style.touchAction = 'none';
+      }
+    } else {
+      // Reset touch-action CSS
+      if (canvasRef.current) {
+        canvasRef.current.style.touchAction = 'auto';
+      }
+    }
 
     if (!canvasRef.current || !contextRef.current || !isDrawingStarted) return;
 
@@ -126,9 +139,6 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       | React.MouseEvent<HTMLCanvasElement>
       | React.TouchEvent<HTMLCanvasElement>
   ) => {
-    event.preventDefault();
-    event.stopPropagation();
-
     if (
       Array.isArray(rectangleData?.rectangles) &&
       rectangleData.rectangles.length >= 2
@@ -136,9 +146,6 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       setIsDrawingDisabled(true);
       return;
     }
-
-    document.body.style.userSelect = 'none';
-    document.body.style.overflow = 'hidden';
 
     const clientX =
       'touches' in event ? event.touches[0].clientX : event.clientX;
@@ -153,9 +160,6 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   const stopDrawing = () => {
     setIsDrawingStarted(false);
     if (!currentRectangle) return;
-
-    document.body.style.userSelect = '';
-    document.body.style.overflow = '';
 
     setRectangleData((prev) => ({
       id: prev.id,
