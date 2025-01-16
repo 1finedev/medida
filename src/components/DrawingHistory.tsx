@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 01:nn:59
+ * Last Modified: Th/01/2025 01:nn:00
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -14,8 +14,13 @@
 import { useLocalStorageData } from '../hooks/useLocalStorageData';
 
 const DrawingHistory = () => {
-  const { localStorageData, restoreDrawing, deleteDrawing, restoredDrawing } =
-    useLocalStorageData();
+  const {
+    localStorageData,
+    restoreDrawing,
+    deleteDrawing,
+    restoredDrawing,
+    filterList
+  } = useLocalStorageData();
 
   return (
     <div className="w-full min-w-[80vw] overflow-auto">
@@ -23,6 +28,20 @@ const DrawingHistory = () => {
         Drawing History
       </h3>
 
+      <div className="flex mb-4">
+        <label htmlFor="filter" className="mr-2 text-sm lg:text-base">
+          Filter by:
+        </label>
+        <select
+          id="filter"
+          className="p-2 text-sm text-white border rounded bg-secondary lg:text-base"
+          onChange={(e) => filterList(e.target.value)}
+        >
+          <option value="">Select filter</option>
+          <option value="distance">Distance</option>
+          <option value="createdAt">Created At</option>
+        </select>
+      </div>
       <table className="w-full border border-collapse">
         <thead>
           <tr>

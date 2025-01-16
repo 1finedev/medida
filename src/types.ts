@@ -18,6 +18,7 @@ export interface StorageContextType {
   restoreDrawing: (drawingId: string) => void;
   deleteDrawing: (drawingId: string) => void;
   restoredDrawing: LocalStorageData | null;
+  filterList: (value: string) => void;
 }
 
 export interface Rectangle {

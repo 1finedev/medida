@@ -21,7 +21,8 @@ export const StorageContext = createContext<StorageContextType>({
   clearLocalStorageData: () => {},
   restoreDrawing: () => {},
   deleteDrawing: () => {},
-  restoredDrawing: null
+  restoredDrawing: null,
+  filterList: () => {}
 });
 
 export const useLocalStorageData = () => useContext(StorageContext);

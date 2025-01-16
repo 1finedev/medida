@@ -7,7 +7,7 @@ import { LocalStorageData } from '../types';
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 12:nn:16
+ * Last Modified: Th/01/2025 01:nn:32
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -57,6 +57,24 @@ export const StorageProvider = ({
     localStorage.setItem('medida_canvas_data', JSON.stringify(updatedData));
   };
 
+  const filterList = (value: string) => {
+    const sortedData = localStorageData.sort((a, b) => {
+      if (value === 'distance') {
+        return a.distance - b.distance;
+      }
+
+      if (value === 'createdAt') {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      }
+
+      return 0;
+    });
+
+    setLocalStorageData([...sortedData]);
+  };
+
   useEffect(() => {
     const storedData = localStorage.getItem('medida_canvas_data');
     if (!storedData) return;
@@ -70,6 +88,7 @@ export const StorageProvider = ({
   return (
     <StorageContext.Provider
       value={{
+        filterList,
         localStorageData,
         updateLocalStorageData,
         clearLocalStorageData,
