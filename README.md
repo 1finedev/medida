@@ -1,27 +1,24 @@
 # Medida Senior Frontend Engineer Assessment
 
-This repository contains the assessment project for the Senior Frontend Engineer position at Medida.
+# Project Overview:
 
-## Installation
+- Implemented a rectangle drawing application using React and TypeScript
+- Features include drawing two rectangles, calculating center distance, and persisting data
+- Responsive design with cross-browser compatibility
 
-1. **Clone the repository:**
+# Implementation Details:
 
-```sh
-git clone https://github.com/yourusername/medida-frontend-assessment.git
-cd medida-frontend-assessment
-```
+- Custom React hooks and context for canvas operations and local storage management
+- Precise distance calculation between rectangle centers
+- Responsive scaling of rectangles during window resize
+- Clean, maintainable code structure following best practices
 
-2. **Install dependencies:**
+Testing Instructions:
 
-```sh
-npm install
-```
-
-3. **Launch the application:**
-
-```sh
-npm start
-```
+1. Clone the repository
+2. Install dependencies: npm install
+3. Start development server: npm run dev
+4. Access application at http://localhost:5173
 
 ## Project Structure
 
@@ -31,10 +28,6 @@ npm start
   - **context/**: Contains the global shared state logic
   - **index.css / tailwind.config.js/**: CSS and styling files using tailwind css
   - **App.tsx/**: Entry point of the application
-
-## Approach
-
-- **Architecture**: The canvas application is built using reusable components to ensure modularity and maintainability, functional approach with hooks and utilizing React's built-in state management to handle application shared global states and tailwindCss for styling
 
 ## Summary
 
