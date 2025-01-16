@@ -128,8 +128,6 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    document.body.style.userSelect = 'none';
-    document.body.style.overflow = 'hidden';
 
     if (
       Array.isArray(rectangleData?.rectangles) &&
@@ -138,6 +136,9 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       setIsDrawingDisabled(true);
       return;
     }
+
+    document.body.style.userSelect = 'none';
+    document.body.style.overflow = 'hidden';
 
     const clientX =
       'touches' in event ? event.touches[0].clientX : event.clientX;
