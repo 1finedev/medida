@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 01:nn:00
+ * Last Modified: Th/01/2025 01:nn:58
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -30,7 +30,7 @@ const DrawingHistory = () => {
 
       <div className="flex mb-4">
         <label htmlFor="filter" className="mr-2 text-sm lg:text-base">
-          Filter by:
+          Sort by:
         </label>
         <select
           id="filter"
