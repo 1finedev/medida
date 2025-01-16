@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 03:nn:19
+ * Last Modified: Th/01/2025 10:nn:26
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -11,31 +11,34 @@
  * ############################################################################### *
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useCanvas } from '../hooks/useCanvas';
 import CanvasActions from './CanvasActions';
 
 const Canvas = () => {
-  const [isFreshMount, setIsFreshMount] = useState(true);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const clearOverlay = useCallback(() => setIsFreshMount(false), []);
 
   // passing the canvasRef to the useCanvas hook to ensure the hook has access to the canvas element
-  const { clearCanvas } = useCanvas(canvasRef);
+  const { clearCanvas, draw, startDrawing, stopDrawing, isDrawingDisabled } =
+    useCanvas(canvasRef);
 
   return (
-    <>
+    <div>
       <CanvasActions clearCanvas={clearCanvas} />
-      <div
-        className="flex-1 bg-secondary rounded-lg cursor-cell"
-        onClick={clearOverlay}
-      >
-        {isFreshMount && (
-          <p className="text-center">Click and drag on this canvas to draw</p>
-        )}
-        <canvas ref={canvasRef} className="w-full h-full"></canvas>
-      </div>
-    </>
+      <p className="text-center text-sm mb-2">
+        Click and drag on the canvas below to draw
+      </p>
+      <canvas
+        ref={canvasRef}
+        onMouseMove={draw}
+        onMouseDown={startDrawing}
+        onMouseUp={stopDrawing}
+        onMouseLeave={stopDrawing}
+        className={`flex-1 bg-secondary rounded-lg ${
+          isDrawingDisabled ? 'cursor-not-allowed' : 'cursor-cell'
+        }`}
+      ></canvas>
+    </div>
   );
 };
 

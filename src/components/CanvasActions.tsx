@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 02:nn:26
+ * Last Modified: Th/01/2025 10:nn:31
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -17,7 +17,9 @@ interface CanvasActionsProps {
 const CanvasActions = ({ clearCanvas }: CanvasActionsProps) => {
   return (
     <div>
-      <button onClick={clearCanvas}>Clear Canvas</button>
+      <button onClick={clearCanvas} className="">
+        Clear Canvas
+      </button>
     </div>
   );
 };
