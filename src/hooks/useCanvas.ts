@@ -79,7 +79,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       | React.TouchEvent<HTMLCanvasElement>
   ) => {
     // Prevent all touch events immediately
-    if ('touches' in event && rectangleData.rectangles.length !== 2) {
+    if ('touches' in event && rectangleData.rectangles.length <= 2) {
       event.preventDefault();
       event.stopPropagation();
 
@@ -88,6 +88,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
         canvasRef.current.style.touchAction = 'none';
       }
     } else {
+      setIsDrawingDisabled(true);
       // Reset touch-action CSS
       if (canvasRef.current) {
         canvasRef.current.style.touchAction = 'auto';
