@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 01:nn:41
+ * Last Modified: Th/01/2025 03:nn:51
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -32,15 +32,8 @@ const Canvas = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <CanvasActions
-        undoDrawing={undoDrawing}
-        clearCanvas={clearCanvas}
-        showSaveButton={isDrawingDisabled}
-        showClearButton={(rectangleData?.rectangles?.length ?? 0) > 0}
-        persistRectangleData={persistRectangleData}
-      />
       <p
-        className={`text-xs md:text-base text-center md:text-left w-full ${
+        className={`text-xs md:text-base text-center  w-full mb-4 ${
           isDrawingDisabled ? 'text-red-500' : 'text-text-primary'
         }`}
       >
@@ -58,10 +51,17 @@ const Canvas = () => {
         onTouchStart={startDrawing}
         onTouchEnd={stopDrawing}
         onTouchCancel={stopDrawing}
-        className={`mt-4 bg-secondary rounded-lg ${
+        className={`mb-4 bg-secondary rounded-lg ${
           isDrawingDisabled ? 'cursor-not-allowed' : 'cursor-cell'
         }`}
       ></canvas>
+      <CanvasActions
+        undoDrawing={undoDrawing}
+        clearCanvas={clearCanvas}
+        showSaveButton={isDrawingDisabled}
+        showClearButton={(rectangleData?.rectangles?.length ?? 0) > 0}
+        persistRectangleData={persistRectangleData}
+      />
     </div>
   );
 };

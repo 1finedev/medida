@@ -80,18 +80,12 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
   ) => {
     // Prevent all touch events immediately
     if ('touches' in event && rectangleData.rectangles.length <= 2) {
-      event.preventDefault();
-      event.stopPropagation();
+      // event.preventDefault();
+      // event.stopPropagation();
 
       // Set touch-action CSS
       if (canvasRef.current) {
         canvasRef.current.style.touchAction = 'none';
-      }
-    } else {
-      setIsDrawingDisabled(true);
-      // Reset touch-action CSS
-      if (canvasRef.current) {
-        canvasRef.current.style.touchAction = 'auto';
       }
     }
 
@@ -145,6 +139,10 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       rectangleData.rectangles.length >= 2
     ) {
       setIsDrawingDisabled(true);
+      // Reset touch-action CSS
+      if (canvasRef.current) {
+        canvasRef.current.style.touchAction = 'revert';
+      }
       return;
     }
 
@@ -201,7 +199,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     if (!canvas || !context) return;
 
     canvas.width = window.innerWidth * 0.9;
-    canvas.height = window.innerHeight * 0.8;
+    canvas.height = window.innerHeight * 0.7;
 
     context.lineCap = 'round';
     context.lineWidth = 3;

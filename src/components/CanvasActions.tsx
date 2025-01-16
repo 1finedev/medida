@@ -3,7 +3,7 @@
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 02:nn:03
+ * Last Modified: Th/01/2025 03:nn:36
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -31,7 +31,7 @@ const CanvasActions = ({
     useLocalStorageData();
 
   return (
-    <div className="flex items-end justify-end w-full gap-4 mb-6 md:mb-2">
+    <div className="flex items-center justify-center w-full gap-4 mb-6 md:mb-2">
       {showClearButton && (
         <>
           <button
