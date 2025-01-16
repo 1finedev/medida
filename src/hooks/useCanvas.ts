@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LocalStorageData, Rectangle } from '../types';
 import { useLocalStorageData } from './useLocalStorageData';
 
@@ -73,7 +73,11 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     );
   };
 
-  const draw = (event: MouseEvent | TouchEvent) => {
+  const draw = (
+    event:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -117,7 +121,11 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     setCurrentRectangle(rectangle);
   };
 
-  const startDrawing = (event: MouseEvent | TouchEvent) => {
+  const startDrawing = (
+    event:
+      | React.MouseEvent<HTMLCanvasElement>
+      | React.TouchEvent<HTMLCanvasElement>
+  ) => {
     event.preventDefault();
     event.stopPropagation();
 
