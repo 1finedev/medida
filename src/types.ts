@@ -15,9 +15,13 @@ export interface StorageContextType {
   localStorageData: LocalStorageData[];
   updateLocalStorageData: (payload: LocalStorageData) => void;
   clearLocalStorageData: () => void;
+  restoreDrawing: (drawingId: string) => void;
+  deleteDrawing: (drawingId: string) => void;
+  restoredDrawing: LocalStorageData | null;
 }
 
 export interface Rectangle {
+  id: string;
   x: number;
   y: number;
   width: number;

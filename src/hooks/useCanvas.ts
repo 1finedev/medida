@@ -15,11 +15,10 @@ import { useEffect, useRef, useState } from 'react';
 import { LocalStorageData, Rectangle } from '../types';
 import { useLocalStorageData } from './useLocalStorageData';
 
-const RECTANGLE_ID = String(Date.now());
-
 export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
-  const { localStorageData, updateLocalStorageData } = useLocalStorageData();
-
+  const RECTANGLE_ID = String(Date.now());
+  const { localStorageData, updateLocalStorageData, restoredDrawing } =
+    useLocalStorageData();
   const [isDrawingStarted, setIsDrawingStarted] = useState(false);
   const [isDrawingDisabled, setIsDrawingDisabled] = useState(false);
   const [rectangleData, setRectangleData] = useState<LocalStorageData>({
@@ -60,7 +59,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     });
   };
 
-  const calculateDistance = (rect1: Rectangle, rect2: Rectangle) => {
+  const calculateDistance = (rect1: Rectangle, rect2: Rectangle): number => {
     const center1 = {
       x: rect1.x + rect1.width / 2,
       y: rect1.y + rect1.height / 2
@@ -69,8 +68,10 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       x: rect2.x + rect2.width / 2,
       y: rect2.y + rect2.height / 2
     };
-    return Math.sqrt(
-      Math.pow(center2.x - center1.x, 2) + Math.pow(center2.y - center1.y, 2)
+    return parseFloat(
+      Math.sqrt(
+        Math.pow(center2.x - center1.x, 2) + Math.pow(center2.y - center1.y, 2)
+      ).toFixed(2)
     );
   };
 
@@ -112,22 +113,17 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     ) {
       rectangleData.rectangles.forEach(drawRectangle);
     }
-    drawRectangle({
-      x: startPositionX.current,
-      y: startPositionY.current,
-      width: rectangleWidth,
-      height: rectangleHeight
-    });
-
-    contextRef.current.strokeStyle = '#D3D3D3';
 
     const rectangle: Rectangle = {
+      id: String(Date.now()),
       x: startPositionX.current,
       y: startPositionY.current,
       width: Math.abs(rectangleWidth),
       height: Math.abs(rectangleHeight)
     };
 
+    contextRef.current.strokeStyle = '#D3D3D3';
+    drawRectangle(rectangle);
     setCurrentRectangle(rectangle);
   };
 
@@ -212,6 +208,13 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       rectangleData.rectangles.forEach(drawRectangle);
     }
   }, [canvasRef, rectangleData?.rectangles?.length, rectangleData?.rectangles]);
+
+  useEffect(() => {
+    if (!restoredDrawing) return;
+
+    setRectangleData(restoredDrawing);
+    setIsDrawingDisabled(true);
+  }, [restoredDrawing]);
 
   return {
     clearCanvas,

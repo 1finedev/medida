@@ -7,7 +7,7 @@ import { LocalStorageData } from '../types';
  * Created Date: Th Jan 2025                                                   *
  * Author: Emmanuel Bayode O.                                                  *
  * -----                                                                       *
- * Last Modified: Th/01/2025 11:nn:47
+ * Last Modified: Th/01/2025 12:nn:16
  * Modified By: Emmanuel Bayode O.
  * -----                                                                       *
  * HISTORY:                                                                    *
@@ -24,6 +24,8 @@ export const StorageProvider = ({
   const [localStorageData, setLocalStorageData] = useState<LocalStorageData[]>(
     []
   );
+  const [restoredDrawing, setRestoredDrawing] =
+    useState<LocalStorageData | null>(null);
 
   const updateLocalStorageData = (payload: LocalStorageData) => {
     const updatedData = [payload, ...localStorageData];
@@ -34,6 +36,25 @@ export const StorageProvider = ({
   const clearLocalStorageData = () => {
     setLocalStorageData([]);
     localStorage.removeItem('medida_canvas_data');
+  };
+
+  const restoreDrawing = (drawingId: string) => {
+    // find the drawing with the given ID
+    const drawing = localStorageData.find((item) => item.id === drawingId);
+
+    if (drawing) {
+      setRestoredDrawing(drawing as LocalStorageData);
+    }
+  };
+
+  const deleteDrawing = (drawingId: string) => {
+    // filter out the drawing with the given ID
+    const updatedData = localStorageData.filter(
+      (item) => item.id !== drawingId
+    );
+
+    setLocalStorageData(updatedData);
+    localStorage.setItem('medida_canvas_data', JSON.stringify(updatedData));
   };
 
   useEffect(() => {
@@ -51,7 +72,10 @@ export const StorageProvider = ({
       value={{
         localStorageData,
         updateLocalStorageData,
-        clearLocalStorageData
+        clearLocalStorageData,
+        restoreDrawing,
+        deleteDrawing,
+        restoredDrawing
       }}
     >
       {children}

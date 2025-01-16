@@ -18,7 +18,10 @@ import { StorageContextType } from '../types';
 export const StorageContext = createContext<StorageContextType>({
   localStorageData: [],
   updateLocalStorageData: () => {},
-  clearLocalStorageData: () => {}
+  clearLocalStorageData: () => {},
+  restoreDrawing: () => {},
+  deleteDrawing: () => {},
+  restoredDrawing: null
 });
 
 export const useLocalStorageData = () => useContext(StorageContext);
