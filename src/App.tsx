@@ -3,12 +3,12 @@ import DrawingHistory from './components/DrawingHistory';
 
 function App() {
   return (
-    <main className="w-full h-screen flex items-center justify-center bg-background text-text-primary py-8 px-6">
-      <section className="w-[20vw] h-full">
-        <DrawingHistory />
-      </section>
-      <section className="flex-1 flex flex-col space-y-6 h-full border border-transparent bg-primary rounded-2xl p-6">
+    <main className="w-full min-h-screen items-center justify-center bg-background text-text-primary py-8 px-6">
+      <section className="flex justify-center items-center">
         <Canvas />
+      </section>
+      <section className="flex-1 border border-transparent p-6 max-w-[80vw] flex flex-col items-center justify-center">
+        <DrawingHistory />
       </section>
     </main>
   );

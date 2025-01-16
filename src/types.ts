@@ -11,6 +11,12 @@
  * ############################################################################### *
  */
 
+export interface StorageContextType {
+  localStorageData: LocalStorageData[];
+  updateLocalStorageData: (payload: LocalStorageData) => void;
+  clearLocalStorageData: () => void;
+}
+
 export interface Rectangle {
   x: number;
   y: number;

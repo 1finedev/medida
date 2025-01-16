@@ -22,7 +22,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
 
   const [isDrawingStarted, setIsDrawingStarted] = useState(false);
   const [isDrawingDisabled, setIsDrawingDisabled] = useState(false);
-  const [rectangleData, setRectangleData] = useState<LocalStorageData | null>({
+  const [rectangleData, setRectangleData] = useState<LocalStorageData>({
     id: RECTANGLE_ID,
     rectangles: localStorageData?.[0]?.rectangles || [],
     distance: 0,
@@ -49,6 +49,15 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
       canvasRef.current.width,
       canvasRef.current.height
     );
+
+    setCurrentRectangle(null);
+    setIsDrawingDisabled(false);
+    setRectangleData({
+      id: RECTANGLE_ID,
+      rectangles: [],
+      distance: 0,
+      createdAt: ''
+    });
   };
 
   const calculateDistance = (rect1: Rectangle, rect2: Rectangle) => {
@@ -90,7 +99,12 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     const rectangleWidth = latestMouseX - startPositionX.current;
     const rectangleHeight = latestMouseY - startPositionY.current;
 
-    clearCanvas();
+    contextRef.current.clearRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
 
     if (
       Array.isArray(rectangleData?.rectangles) &&
@@ -124,8 +138,10 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     if (
       Array.isArray(rectangleData?.rectangles) &&
       rectangleData.rectangles.length >= 2
-    )
+    ) {
+      setIsDrawingDisabled(true);
       return;
+    }
 
     const { clientX, clientY } = nativeEvent;
     startPositionX.current = clientX - canvasXOffset.current;
@@ -136,30 +152,34 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
 
   const stopDrawing = () => {
     setIsDrawingStarted(false);
-    if (!currentRectangle || !Array.isArray(rectangleData?.rectangles)) return;
+    if (!currentRectangle) return;
 
-    setRectangleData(
-      (prev) =>
-        prev && {
-          id: prev.id,
-          rectangles: [...prev.rectangles, currentRectangle],
-          distance: prev.distance,
-          createdAt: prev.createdAt
-        }
-    );
+    setRectangleData((prev) => ({
+      id: prev.id,
+      rectangles: [...prev.rectangles, currentRectangle],
+      distance: prev.distance,
+      createdAt: prev.createdAt
+    }));
 
-    if (rectangleData.rectangles.length >= 2) {
+    setCurrentRectangle(null);
+    if (rectangleData.rectangles.length >= 1) {
       setIsDrawingDisabled(true);
-
-      const [rect1] = rectangleData.rectangles;
-      const distance = calculateDistance(rect1, currentRectangle);
-      updateLocalStorageData({
-        id: RECTANGLE_ID,
-        rectangles: rectangleData.rectangles,
-        distance,
-        createdAt: new Date().toISOString()
-      });
     }
+  };
+
+  const persistRectangleData = () => {
+    if (rectangleData.rectangles.length < 2) return;
+
+    const [rect1, rect2] = rectangleData.rectangles;
+    const distance = calculateDistance(rect1, rect2);
+
+    updateLocalStorageData({
+      id: RECTANGLE_ID,
+      rectangles: rectangleData.rectangles,
+      distance,
+      createdAt: new Date().toISOString()
+    });
+    clearCanvas();
   };
 
   useEffect(() => {
@@ -168,7 +188,7 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
 
     if (!canvas || !context) return;
 
-    canvas.width = window.innerWidth * 0.8;
+    canvas.width = window.innerWidth * 0.9;
     canvas.height = window.innerHeight * 0.8;
 
     context.lineCap = 'round';
@@ -191,7 +211,15 @@ export const useCanvas = (canvasRef: React.RefObject<HTMLCanvasElement>) => {
     ) {
       rectangleData.rectangles.forEach(drawRectangle);
     }
-  }, [canvasRef, rectangleData]);
+  }, [canvasRef, rectangleData?.rectangles?.length, rectangleData?.rectangles]);
 
-  return { clearCanvas, draw, startDrawing, stopDrawing, isDrawingDisabled };
+  return {
+    clearCanvas,
+    draw,
+    startDrawing,
+    stopDrawing,
+    isDrawingDisabled,
+    rectangleData,
+    persistRectangleData
+  };
 };

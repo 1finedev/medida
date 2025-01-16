@@ -11,35 +11,14 @@
  * ############################################################################### *
  */
 
-import { useEffect, useState } from 'react';
-import { LocalStorageData } from '../types';
+import { createContext, useContext } from 'react';
+import { StorageContextType } from '../types';
 
-export const useLocalStorageData = () => {
-  const [localStorageData, setLocalStorageData] = useState<LocalStorageData[]>(
-    []
-  );
+// Create a context for storage
+export const StorageContext = createContext<StorageContextType>({
+  localStorageData: [],
+  updateLocalStorageData: () => {},
+  clearLocalStorageData: () => {}
+});
 
-  const updateLocalStorageData = (payload: LocalStorageData | null) => {
-    if (!payload) {
-      setLocalStorageData([]);
-      localStorage.removeItem('medida_canvas_data');
-      return;
-    }
-
-    const updatedData = [payload, ...localStorageData];
-    setLocalStorageData(updatedData);
-    localStorage.setItem('medida_canvas_data', JSON.stringify(updatedData));
-  };
-
-  useEffect(() => {
-    const storedData = localStorage.getItem('medida_canvas_data');
-    if (!storedData) return;
-
-    const parsedData = JSON.parse(storedData);
-
-    // Only set the data if it's an array
-    setLocalStorageData(Array.isArray(parsedData) ? parsedData : []);
-  }, []);
-
-  return { localStorageData, updateLocalStorageData };
-};
+export const useLocalStorageData = () => useContext(StorageContext);
